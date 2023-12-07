@@ -1,6 +1,7 @@
 /* global AdobeDC */
 
 import { createTag, getConfig, loadScript } from '../../utils/utils.js';
+import getUuid from '../../utils/getUuid.js';
 
 const API_SOURCE_URL = 'https://acrobatservices.adobe.com/view-sdk/viewer.js';
 const PDF_RENDER_DIV_ID = 'adobe-dc-view';
@@ -28,10 +29,9 @@ const init = async (a) => {
 
   if (!url) return;
 
-  const foundPdfs = document.querySelectorAll('.pdf-container');
-  const idSuffix = foundPdfs.length + 1;
-
-  const pdfViewerDiv = createTag('div', { class: 'pdf-container', id: `${PDF_RENDER_DIV_ID}_${idSuffix}` });
+  const uuid = await getUuid();
+  const id = `${PDF_RENDER_DIV_ID}_${uuid}`;
+  const pdfViewerDiv = createTag('div', { class: 'pdf-container', id });
 
   a?.insertAdjacentElement('afterend', pdfViewerDiv);
   a?.remove();
@@ -45,7 +45,7 @@ const init = async (a) => {
     const adobeDCView = new AdobeDC.View(
       {
         clientId,
-        divId: `${PDF_RENDER_DIV_ID}_${idSuffix}`,
+        divId: id,
         reportSuiteId,
       },
     );
