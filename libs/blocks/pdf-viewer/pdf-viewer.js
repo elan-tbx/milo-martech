@@ -16,7 +16,7 @@ export const getPdfConfig = () => {
   const { host, href } = window.location;
   const location = new URL(href);
   const query = location.searchParams.get('env');
-  let clientId = 'b4d816cf63e5435b887fa238957786b5' || env.consumer?.pdfViewerClientId || env.pdfViewerClientId;
+  let clientId = 'c4346fa88fe44872b431af46a05799ef' || env.consumer?.pdfViewerClientId || env.pdfViewerClientId;
   let reportSuiteId = env.consumer?.pdfViewerReportSuite || env.pdfViewerReportSuite;
 
   if (host.includes('hlx.live') || query === 'live') {
