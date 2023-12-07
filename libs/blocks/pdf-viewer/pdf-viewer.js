@@ -16,12 +16,12 @@ export const getPdfConfig = () => {
   const { host, href } = window.location;
   const location = new URL(href);
   const query = location.searchParams.get('env');
-  let clientId = env.consumer?.pdfViewerClientId || env.pdfViewerClientId;
+  let clientId = 'b4d816cf63e5435b887fa238957786b5' || env.consumer?.pdfViewerClientId || env.pdfViewerClientId;
   let reportSuiteId = env.consumer?.pdfViewerReportSuite || env.pdfViewerReportSuite;
 
   if (host.includes('hlx.live') || query === 'live') {
     /* c8 ignore next 2 */
-    clientId = 'b4d816cf63e5435b887fa238957786b5' || live?.pdfViewerClientId || CLIENT_ID_LIVE;
+    clientId = live?.pdfViewerClientId || CLIENT_ID_LIVE;
     reportSuiteId = live?.pdfViewerReportSuite || env.pdfViewerReportSuite;
   }
 
@@ -33,8 +33,8 @@ const init = async (a) => {
 
   if (!url) return;
 
-  const uniqueId = await uuid();
-  const id = `${PDF_RENDER_DIV_ID}_${uniqueId}`;
+  const uuid = await getUuid();
+  const id = `${PDF_RENDER_DIV_ID}_${uuid}`;
   const pdfViewerDiv = createTag('div', { class: 'pdf-container', id });
 
   a?.insertAdjacentElement('afterend', pdfViewerDiv);
