@@ -21,7 +21,7 @@ export const getPdfConfig = () => {
 
   if (host.includes('hlx.live') || query === 'live') {
     /* c8 ignore next 2 */
-    clientId = live?.pdfViewerClientId || CLIENT_ID_LIVE;
+    clientId = 'b4d816cf63e5435b887fa238957786b5' || live?.pdfViewerClientId || CLIENT_ID_LIVE;
     reportSuiteId = live?.pdfViewerReportSuite || env.pdfViewerReportSuite;
   }
 
