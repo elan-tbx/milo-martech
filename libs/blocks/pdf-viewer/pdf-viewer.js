@@ -33,8 +33,8 @@ const init = async (a) => {
 
   if (!url) return;
 
-  const uuid = await getUuid();
-  const id = `${PDF_RENDER_DIV_ID}_${uuid}`;
+  const uniqueId = await uuid();
+  const id = `${PDF_RENDER_DIV_ID}_${uniqueId}`;
   const pdfViewerDiv = createTag('div', { class: 'pdf-container', id });
 
   a?.insertAdjacentElement('afterend', pdfViewerDiv);
