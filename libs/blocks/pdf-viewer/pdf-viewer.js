@@ -1,8 +1,12 @@
 /* global AdobeDC */
 
 import { createTag, getConfig, loadScript } from '../../utils/utils.js';
-import getUuid from '../../utils/getUuid.js';
-
+// https://gist.github.com/LeverOne/1308368
+const uuid = (a, b) => {
+  // eslint-disable-next-line
+  for (b = a = ''; a++ < 36; b += a * 51 & 52 ? (a ^ 15 ? 8 ^ Math.random() * (a ^ 20 ? 16 : 4) : 4).toString(16) : '-');
+  return b;
+};
 const API_SOURCE_URL = 'https://acrobatservices.adobe.com/view-sdk/viewer.js';
 const PDF_RENDER_DIV_ID = 'adobe-dc-view';
 const CLIENT_ID_LIVE = '96e41871f28349e08b3562747a72dc75';
@@ -29,8 +33,8 @@ const init = async (a) => {
 
   if (!url) return;
 
-  const uuid = await getUuid();
-  const id = `${PDF_RENDER_DIV_ID}_${uuid}`;
+  const uniqueId = await uuid();
+  const id = `${PDF_RENDER_DIV_ID}_${uniqueId}`;
   const pdfViewerDiv = createTag('div', { class: 'pdf-container', id });
 
   a?.insertAdjacentElement('afterend', pdfViewerDiv);
