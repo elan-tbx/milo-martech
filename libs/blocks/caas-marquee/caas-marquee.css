@@ -2,10 +2,12 @@
   display: none;
 }
 
-.caas-marquee-preview {
-  height: 700px;
+.caas-marquee-section {
+  min-height: 700px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+
+  /*
   justify-content: center;
   align-items: center;
   column-gap: 50px;
@@ -14,8 +16,16 @@
   background-size: contain;
   background-repeat: no-repeat;
   color: white;
+  */
 }
 
+.caas-marquee-section .marquee.large .background picture {
+  position: absolute;
+}
+
+
+
+/*
 .caas-marquee-content,
 .caas-marquee-image  {
   width: 45%;
@@ -80,4 +90,4 @@ button.secondary {
   margin-left: 40px;
   background: transparent;
 }
-
+ */
