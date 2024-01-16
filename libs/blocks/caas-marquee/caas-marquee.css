@@ -1,0 +1,83 @@
+.caas-marquee {
+  display: none;
+}
+
+.caas-marquee-preview {
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  column-gap: 50px;
+  position: relative;
+  overflow: hidden;
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+.caas-marquee-content,
+.caas-marquee-image  {
+  width: 45%;
+  text-align: left;
+  max-width: 500px;
+  z-index: 1;
+}
+
+img.large-image {
+  position: absolute;
+  height: auto;
+  min-width: 100%;
+  min-height: 700px;
+}
+
+body.text-location-right .caas-marquee{
+  flex-direction: row-reverse;
+}
+
+.caas-marquee-title {
+  margin: 12px 0;
+  line-height: 1.4;
+}
+
+.caas-marquee-label {
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.caas-marquee-description {
+  line-height: 1.5;
+}
+
+.caas-marquee--image img {
+  width: auto;
+  height: 250px;
+  object-fit: cover;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  border-color: transparent;
+}
+
+button {
+  background: none;
+  border: solid 2px transparent;
+  padding: 10px 30px;
+  border-radius: 20px;
+  color: white;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+button.call-to-action {
+  background-color: #1473e6;
+  border-color: #1473e6 !important;
+  color: #fff !important;
+}
+
+button.secondary {
+  margin-left: 40px;
+  background: transparent;
+}
+
