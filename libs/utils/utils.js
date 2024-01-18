@@ -98,6 +98,7 @@ const AUTO_BLOCKS = [
   { video: '.mp4' },
   { merch: '/tools/ost?' },
   { 'offer-preview': '/tools/commerce' },
+  { 'universal-promo-terms': 'services.adobe.com/ims/person/fetch_tc' },
 ];
 const DO_NOT_INLINE = [
   'accordion',
