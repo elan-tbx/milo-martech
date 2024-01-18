@@ -52,11 +52,18 @@ export default function init(el) {
   // foreground copy
   const title = createTag('h1', { class: `heading-${typeSize[size][0]}` }, metadata.title);
   const body = createTag('p', { class: `body-${typeSize[size][1]}` }, metadata.description);
+
   const cta = createTag('a', {
     class: `con-button blue button-${typeSize[size][1]} button-justified-mobile`,
     href: metadata.ctaurl,
   }, metadata.ctatext);
+
+  const cta2 = metadata.cta2url ? createTag('a', {
+    class: `con-button outline button-${typeSize[size][1]} button-justified-mobile`,
+    href: metadata.cta2url,
+  }, metadata.cta2text) : null;
   const footer = createTag('p', { class: 'action-area' }, cta);
+  if (cta2) footer.append(cta2);
   const text = createTag('div', { class: 'text' });
   text.append(title, body, footer);
   const foreground = createTag('div', { class: 'foreground container' }, text);
