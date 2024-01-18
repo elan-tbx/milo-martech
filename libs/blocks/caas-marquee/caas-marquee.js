@@ -1,10 +1,17 @@
 import { createTag } from '../../utils/utils.js';
 
+const typeSize = {
+  small: ['xl', 'm', 'm'],
+  medium: ['xl', 'm', 'm'],
+  large: ['xxl', 'xl', 'l'],
+  xlarge: ['xxl', 'xl', 'l'],
+};
+
 function getMetadata(el) {
   const metadata = {};
   for (const child of el.children) {
     const key = child.children[0]?.textContent?.trim()?.toLowerCase();
-    const value = child.children[1]?.textContent?.trim();
+    const value = child.children[1]?.innerHTML?.trim();
     if (key.match(/^image/)) {
       metadata[key] = child.querySelector('img').src.replace(/\?.*/, '');
     } else {
@@ -16,32 +23,62 @@ function getMetadata(el) {
 
 export default function init(el) {
   const metadata = getMetadata(el);
-  // const marqueeSection = createTag('div', {
-  //   class: 'caas-marquee-section',
-  //   style: `background-image: url(${metadata.image});
-  //           color: ${metadata.textcolor || '#fff'};
-  //       `,
-  // });
 
-  const image = createTag('img', { class: 'background', src: metadata.image });
-  const imageP = createTag('p', null, image);
-  const background = createTag('div', { class: 'background' }, imageP);
+  // configure block font sizes
+  const classList = el.classList.toString().split(' ');
+  /* eslint-disable no-nested-ternary */
+  const size = classList.includes('small') ? 'small'
+    : classList.includes('medium') ? 'medium'
+      : classList.includes('large') ? 'large'
+        : 'xlarge';
+  /* eslint-enable no-nested-ternary */
 
-  const title = createTag('h1', { class: 'heading' }, metadata.title);
-  const description = createTag('p', { class: 'text' }, metadata.description);
-  const foreground = createTag('div', { class: 'foreground' }, title, description);
+  // backgroung image
+  const img = createTag('img', { class: 'background', src: metadata.image });
+  const picture = createTag('picture', null, img);
+  const dtOnly = createTag('div', { class: 'desktop-only' }, picture);
 
-  const section = createTag('div', { class: 'caas-marquee-section' });
+  const imgTablet = createTag('img', { class: 'background', src: metadata.imagetablet });
+  const pictureTablet = createTag('picture', null, imgTablet);
+  const TabletOnly = createTag('div', { class: 'tablet-only' }, pictureTablet);
+
+  const imgSm = createTag('img', { class: 'background', src: metadata.imagemobile });
+  const pictureSm = createTag('picture', null, imgSm);
+  const MobileOnly = createTag('div', { class: 'mobile-only' }, pictureSm);
+
+  const background = createTag('div', { class: 'background' });
+  background.append(dtOnly, TabletOnly, MobileOnly);
+
+  // foreground text
+  const title = createTag('h1', { class: `heading-${typeSize[size][0]}` }, metadata.title);
+  const body = createTag('p', { class: `body-${typeSize[size][1]}` }, metadata.description);
+  const cta = createTag('a', {
+    class: `con-button blue button-${typeSize[size][1]} button-justified-mobile`,
+    href: metadata.ctaurl,
+  }, metadata.ctatext);
+  const footer = createTag('p', { class: 'action-area' }, cta);
+  const text = createTag('div', { class: 'text' });
+  text.append(title, body, footer);
+  const foreground = createTag('div', { class: 'foreground container' }, text);
+
+  // marquee container
+  const classListString = classList.join(' ').replace('caas-marquee', 'marquee');
+  const section = createTag('div', { class: `${classListString}` });
   section.append(background, foreground);
 
-  // const title = createTag('h1', { class: 'caas-marquee-title' }, metadata.title);
-  // const detail = createTag('div', { class: 'caas-marquee-detail' }, metadata.detail);
-  // const description = createTag('div', { class: 'caas-marquee-description' }, metadata.description);
-  // const cta = createTag('a', { class: 'cta-link', href: metadata.ctaurl }, metadata.ctatext);
-  // section.append(detail, title, description, cta);
-
+  // page section container
   const pageSection = document.querySelector('.section');
   pageSection.prepend(section);
+
+  // update arbitrary caas metadata
+  const arbitrary = createTag('div');
+  const arbitraryKey = createTag('div', null, 'arbitrary');
+  const arbitraryValue = createTag('div', null, `
+    classList: ${classListString},
+    imageSm: ${metadata.imagemobile || ''},
+    imageMd: ${metadata.imagetablet || ''}`);
+  arbitrary.append(arbitraryKey, arbitraryValue);
+  el.append(arbitrary);
 
   // degugging
   console.log(metadata); // eslint-disable-line no-console
