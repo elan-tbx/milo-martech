@@ -33,23 +33,23 @@ export default function init(el) {
         : 'xlarge';
   /* eslint-enable no-nested-ternary */
 
-  // backgroung image
+  // backgroung image for desktop, tablet, and mobile
   const img = createTag('img', { class: 'background', src: metadata.image });
   const picture = createTag('picture', null, img);
-  const dtOnly = createTag('div', { class: 'desktop-only' }, picture);
+  const desktopOnly = createTag('div', { class: 'desktop-only' }, picture);
 
   const imgTablet = createTag('img', { class: 'background', src: metadata.imagetablet });
   const pictureTablet = createTag('picture', null, imgTablet);
-  const TabletOnly = createTag('div', { class: 'tablet-only' }, pictureTablet);
+  const tabletOnly = createTag('div', { class: 'tablet-only' }, pictureTablet);
 
   const imgSm = createTag('img', { class: 'background', src: metadata.imagemobile });
   const pictureSm = createTag('picture', null, imgSm);
-  const MobileOnly = createTag('div', { class: 'mobile-only' }, pictureSm);
+  const mobileOnly = createTag('div', { class: 'mobile-only' }, pictureSm);
 
   const background = createTag('div', { class: 'background' });
-  background.append(dtOnly, TabletOnly, MobileOnly);
+  background.append(desktopOnly, tabletOnly, mobileOnly);
 
-  // foreground text
+  // foreground copy
   const title = createTag('h1', { class: `heading-${typeSize[size][0]}` }, metadata.title);
   const body = createTag('p', { class: `body-${typeSize[size][1]}` }, metadata.description);
   const cta = createTag('a', {
