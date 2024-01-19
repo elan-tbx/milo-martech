@@ -103,13 +103,19 @@ const PRODUCT_NAMES = [
 
 const TAG_PATTERN = /^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-].*$/;
 
-const CARD_TYPES = ['segment', 'special-offers', 'plans', 'catalog', 'product', 'inline-heading', 'image'];
+const CARD_TYPES = ['segment', 'special-offers', 'plans', 'catalog', 'product', 'inline-heading', 'image', 'mini-compare-chart'];
 
 const textStyles = {
   H5: 'detail-m',
   H4: 'body-xxs',
   H3: 'heading-xs',
   H2: 'heading-m',
+};
+
+const miniCompareChartTextStyles = {
+  H3: 'heading-m',
+  P: 'body-m',
+  H5: 'body-s',
 };
 
 const getPodType = (styles) => styles?.find((style) => CARD_TYPES.includes(style));
@@ -189,7 +195,6 @@ const addMerchCardGridIfMissing = (section, cardType) => {
   if (directSection) {
     section.classList.add('three-merch-cards', cardType);
   }
-
   return false;
 };
 
@@ -247,6 +252,10 @@ function createQuantitySelect(el) {
   return quantitySelect;
 }
 
+const getMiniCompareChartFooterRows = (el) => {
+  console.log(el.children);
+};
+
 const init = async (el) => {
   const styles = [...el.classList];
   const lastClass = styles[styles.length - 1];
@@ -279,6 +288,10 @@ const init = async (el) => {
   merchCard.setAttribute('variant', cardType);
   if (name) {
     merchCard.setAttribute('name', name);
+  }
+  let footerRows;
+  if (cardType === 'mini-compare-chart') {
+    footerRows = getMiniCompareChartFooterRows(el);
   }
   images.forEach((img) => {
     const imgNode = img.querySelector('img');
