@@ -240,7 +240,7 @@ const getCardImageUrl = () => {
   const imageUrl = getImagePathMd('image')
     || getImagePathMd('cardimage')
     || getImagePathMd('cardimagepath')
-    || doc.querySelector('main')?.querySelector('img')?.src
+    || doc.querySelector('main')?.querySelector('img')?.src.replace(/\?.*/, '')
     || doc.querySelector('meta[property="og:image"]')?.content;
 
   if (!imageUrl) return null;

@@ -64,6 +64,7 @@ export default function init(el) {
   }, metadata.cta2text) : null;
   const footer = createTag('p', { class: 'action-area' }, cta);
   if (cta2) footer.append(cta2);
+
   const text = createTag('div', { class: 'text' });
   text.append(title, body, footer);
   const foreground = createTag('div', { class: 'foreground container' }, text);
@@ -81,6 +82,8 @@ export default function init(el) {
   const arbitrary = createTag('div');
   const arbitraryKey = createTag('div', null, 'arbitrary');
   const arbitraryValue = createTag('div', null, `
+    enabled: true,
+    promoId: ${metadata.promoid},
     classList: ${classListString},
     imageSm: ${metadata.imagemobile || ''},
     imageMd: ${metadata.imagetablet || ''}`);
