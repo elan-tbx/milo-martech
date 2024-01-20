@@ -1067,11 +1067,12 @@ async function processSection(section, config, isDoc) {
 
   // Show the section when all blocks inside are done.
   delete section.el.dataset.status;
-  delete section.el.dataset.idx;
 
   if (isDoc && section.el.dataset.idx === '0') {
     await loadPostLCP(config);
   }
+
+  delete section.el.dataset.idx;
 
   return section.blocks;
 }
