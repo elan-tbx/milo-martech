@@ -896,6 +896,11 @@ async function checkForPageMods() {
 }
 
 async function loadPostLCP(config) {
+  const georouting = getMetadata('georouting') || config.geoRouting;
+  if (georouting === 'on') {
+    const { default: loadGeoRouting } = await import('../features/georoutingv2/georoutingv2.js');
+    await loadGeoRouting(config, createTag, getMetadata, loadBlock, loadStyle);
+  }
   loadMartech();
   const header = document.querySelector('header');
   if (header) {
@@ -1060,18 +1065,13 @@ async function processSection(section, config, isDoc) {
   // Only move on to the next section when all blocks are loaded.
   await Promise.all(loaded);
 
-  if (isDoc && section.el.dataset.idx === '0') {
-    const georouting = getMetadata('georouting') || config.geoRouting;
-    if (georouting === 'on') {
-      const { default: loadGeoRouting } = await import('../features/georoutingv2/georoutingv2.js');
-      await loadGeoRouting(config, createTag, getMetadata, loadBlock, loadStyle);
-    }
-    loadPostLCP(config);
-  }
-
   // Show the section when all blocks inside are done.
   delete section.el.dataset.status;
   delete section.el.dataset.idx;
+
+  if (isDoc && section.el.dataset.idx === '0') {
+    await loadPostLCP(config);
+  }
 
   return section.blocks;
 }
