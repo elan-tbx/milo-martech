@@ -896,6 +896,11 @@ async function checkForPageMods() {
 }
 
 async function loadPostLCP(config) {
+  const georouting = getMetadata('georouting') || config.geoRouting;
+  if (georouting === 'on') {
+    const { default: loadGeoRouting } = await import('../features/georoutingv2/georoutingv2.js');
+    loadGeoRouting(config, createTag, getMetadata, loadBlock, loadStyle);
+  }
   loadMartech();
   const header = document.querySelector('header');
   if (header) {
@@ -1005,13 +1010,6 @@ function decorateDocumentExtras() {
 }
 
 async function documentPostSectionLoading(config) {
-  const georouting = getMetadata('georouting') || config.geoRouting;
-  if (georouting === 'on') {
-    // eslint-disable-next-line import/no-cycle
-    const { default: loadGeoRouting } = await import('../features/georoutingv2/georoutingv2.js');
-    loadGeoRouting(config, createTag, getMetadata, loadBlock, loadStyle);
-  }
-
   decorateFooterPromo();
 
   const appendage = getMetadata('title-append');
