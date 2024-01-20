@@ -105,6 +105,8 @@ const TAG_PATTERN = /^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-].*$/;
 
 const CARD_TYPES = ['segment', 'special-offers', 'plans', 'catalog', 'product', 'inline-heading', 'image', 'mini-compare-chart'];
 
+const MINI_COMPARE_CHART = 'mini-compare-chart';
+
 const textStyles = {
   H5: 'detail-m',
   H4: 'body-xxs',
@@ -112,38 +114,62 @@ const textStyles = {
   H2: 'heading-m',
 };
 
-const miniCompareChartTextStyles = {
-  H3: 'heading-m',
-  P: 'body-m',
-  H5: 'body-s',
-};
-
 const getPodType = (styles) => styles?.find((style) => CARD_TYPES.includes(style));
 
 const isHeadingTag = (tagName) => /^H[2-5]$/.test(tagName);
 const isParagraphTag = (tagName) => tagName === 'P';
 
+function transformElement(element) {
+  const div = document.createElement('div');
+  div.innerHTML = element.innerHTML;
+  return div;
+}
+
 const parseContent = (el, merchCard) => {
   const innerElements = [
     ...el.querySelectorAll('h2, h3, h4, h5, p, ul'),
   ];
-  const bodySlot = createTag('div', { slot: 'body-xs' });
+  let bodySlotName = 'body-xs';
+  let headingMCount = 0;
+  if (merchCard.variant === MINI_COMPARE_CHART) {
+    bodySlotName = 'body-m';
+  }
+  const bodySlot = createTag('div', { slot: bodySlotName });
 
   innerElements.forEach((element) => {
     const { tagName } = element;
+    if (element.innerHTML.trim() === '') {
+      element.remove();
+      return;
+    }
     if (isHeadingTag(tagName)) {
-      const slotName = textStyles[tagName];
+      let slotName = textStyles[tagName];
       if (slotName) {
         element.setAttribute('slot', slotName);
-        merchCard.append(element);
+        if (['H2', 'H4', 'H5'].includes(tagName)) {
+          if (tagName === 'H2') {
+            headingMCount += 1;
+          }
+          const transformedElement = transformElement(element);
+          if (headingMCount === 2 && merchCard.variant === MINI_COMPARE_CHART) {
+            slotName = 'heading-m-price';
+          }
+          transformedElement.setAttribute('slot', slotName);
+          merchCard.append(transformedElement);
+        } else {
+          merchCard.append(element);
+        }
       }
       return;
     }
     if (isParagraphTag(tagName)) {
       bodySlot.append(element);
+      merchCard.append(bodySlot);
     }
   });
-  merchCard.append(bodySlot);
+  if (merchCard.variant === 'mini-compare-chart' && merchCard.childNodes[1]) {
+    merchCard.insertBefore(bodySlot, merchCard.childNodes[1]);
+  }
 };
 
 const getBadgeStyle = (badgeMetadata) => {
@@ -253,7 +279,10 @@ function createQuantitySelect(el) {
 }
 
 const getMiniCompareChartFooterRows = (el) => {
-  console.log(el.children);
+  let footerRows = [];
+  footerRows = Array.from(el.children).slice(1);
+  footerRows.forEach((row) => row.remove());
+  return footerRows;
 };
 
 const init = async (el) => {
@@ -281,30 +310,11 @@ const init = async (el) => {
       }
     }
   }
-  const images = el.querySelectorAll('picture');
-  let image;
-  const icons = [];
   const merchCard = createTag('merch-card', { class: styles.join(' '), 'data-block': '' });
   merchCard.setAttribute('variant', cardType);
   if (name) {
     merchCard.setAttribute('name', name);
   }
-  let footerRows;
-  if (cardType === 'mini-compare-chart') {
-    footerRows = getMiniCompareChartFooterRows(el);
-  }
-  images.forEach((img) => {
-    const imgNode = img.querySelector('img');
-    const { width, height } = imgNode;
-    const isSquare = Math.abs(width - height) <= 10;
-    if (img) {
-      if (isSquare) {
-        icons.push(img);
-      } else {
-        image = img;
-      }
-    }
-  });
   let tags = {};
   if (el.lastElementChild) {
     tags = extractTags(el.lastElementChild);
@@ -329,6 +339,25 @@ const init = async (el) => {
       }
     }
   }
+  let footerRows;
+  if (cardType === 'mini-compare-chart') {
+    footerRows = getMiniCompareChartFooterRows(el);
+  }
+  const images = el.querySelectorAll('picture');
+  let image;
+  const icons = [];
+  images.forEach((img) => {
+    const imgNode = img.querySelector('img');
+    const { width, height } = imgNode;
+    const isSquare = Math.abs(width - height) <= 10;
+    if (img) {
+      if (isSquare) {
+        icons.push(img);
+      } else {
+        image = img;
+      }
+    }
+  });
   const actionMenuContent = cardType === 'catalog'
     ? getActionMenuContent(el)
     : null;

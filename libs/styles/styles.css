@@ -332,6 +332,15 @@
 }
 
 .l-button .con-button,
+.con-button.button-m {
+  border-radius: 20px;
+  font-size: 17px;
+  line-height: 20px;
+  min-height: 21px;
+  padding: 7px 18px 8px;
+}
+
+.l-button .con-button,
 .con-button.button-l {
   border-radius: 20px;
   font-size: 17px;
