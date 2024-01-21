@@ -173,7 +173,7 @@ const parseContent = (el, merchCard) => {
       merchCard.append(bodySlot);
     }
   });
-  if (merchCard.variant === 'mini-compare-chart' && merchCard.childNodes[1]) {
+  if (merchCard.variant === MINI_COMPARE_CHART && merchCard.childNodes[1]) {
     merchCard.insertBefore(bodySlot, merchCard.childNodes[1]);
   }
 };
@@ -368,7 +368,7 @@ const init = async (el) => {
     }
   }
   let footerRows;
-  if (cardType === 'mini-compare-chart') {
+  if (cardType === MINI_COMPARE_CHART) {
     footerRows = getMiniCompareChartFooterRows(el);
   }
   const images = el.querySelectorAll('picture');
@@ -435,7 +435,11 @@ const init = async (el) => {
   parseContent(el, merchCard);
   const footer = createTag('div', { slot: 'footer' });
   if (ctas) {
-    decorateButtons(ctas);
+    if (merchCard.variant === 'mini-compare-chart') {
+      decorateButtons(ctas, 'button-m');
+    } else {
+      decorateButtons(ctas);
+    }
     footer.append(ctas);
   }
   merchCard.appendChild(footer);
