@@ -127,7 +127,7 @@ function transformElement(element) {
 
 const parseContent = (el, merchCard) => {
   const innerElements = [
-    ...el.querySelectorAll('h2, h3, h4, h5, p, ul'),
+    ...el.querySelectorAll('h2, h3, h4, h5, p, ul, em'),
   ];
   let bodySlotName = 'body-xs';
   let headingMCount = 0;
@@ -141,6 +141,12 @@ const parseContent = (el, merchCard) => {
     if (element.innerHTML.trim() === '') {
       element.remove();
       return;
+    }
+    if (tagName === 'EM' && !element.querySelector('a')) {
+      const pElement = document.createElement('p');
+      pElement.innerHTML = element.innerHTML;
+      pElement.classList.add('promo-text');
+      element.replaceWith(pElement);
     }
     if (isHeadingTag(tagName)) {
       let slotName = textStyles[tagName];
@@ -283,6 +289,28 @@ const getMiniCompareChartFooterRows = (el) => {
   footerRows = Array.from(el.children).slice(1);
   footerRows.forEach((row) => row.remove());
   return footerRows;
+};
+
+const decorateFooterRows = (merchCard, footerRows) => {
+  if (footerRows) {
+    const footerRowsSlot = createTag('div', { slot: 'footer-rows' });
+    footerRows.forEach((row) => {
+      const rowIcon = row.firstElementChild.querySelector('picture');
+      const rowText = row.querySelector('div > div:nth-child(2)').innerHTML;
+      const rowTextParagraph = createTag('p', {}, rowText);
+      const footerRowCell = createTag('div', { class: 'footer-row-cell' });
+      const footerRowCellIcon = createTag('div', { class: 'footer-row-cell-icon' });
+      const footerRowCellDescription = createTag('div', { class: 'footer-row-cell-description' });
+      footerRowCellDescription.appendChild(rowTextParagraph);
+      if (rowIcon) {
+        footerRowCellIcon.appendChild(rowIcon);
+      }
+      footerRowCell.appendChild(footerRowCellIcon);
+      footerRowCell.appendChild(footerRowCellDescription);
+      footerRowsSlot.appendChild(footerRowCell);
+    });
+    merchCard.appendChild(footerRowsSlot);
+  }
 };
 
 const init = async (el) => {
@@ -430,6 +458,7 @@ const init = async (el) => {
   if (merchCard.classList.contains('has-divider')) {
     merchCard.setAttribute('custom-hr', true);
   }
+  decorateFooterRows(merchCard, footerRows);
   el.replaceWith(merchCard);
   decorateMerchCardLinkAnalytics(merchCard);
   return merchCard;
