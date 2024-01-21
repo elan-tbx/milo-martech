@@ -31,7 +31,7 @@ describe('Merch Card', () => {
   it('Supports Special Offers card', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/special-offers.html' });
     const merchCard = await init(document.querySelector('.special-offers'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingOne = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
@@ -56,10 +56,10 @@ describe('Plans Card', () => {
   it('Supports COM Plans card', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/plans-card.html' });
     const merchCard = await init(document.querySelector('.merch-card.plans.icons.secure'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingOne = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
-    const detail = merchCard.querySelector('h5[slot="detail-m"]');
+    const detail = merchCard.querySelector('div[slot="detail-m"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -84,10 +84,10 @@ describe('Plans Card', () => {
   it('Supports EDU Plans card with stock', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/plans-card.html' });
     const merchCard = await init(document.querySelector('.merch-card.plans.edu.icons.secure'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingOne = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
-    const detail = merchCard.querySelector('h5[slot="detail-m"]');
+    const detail = merchCard.querySelector('div[slot="detail-m"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -112,10 +112,10 @@ describe('Plans Card', () => {
   it('should skip ribbon and altCta creation', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/plans-card.html' });
     const merchCard = await init(document.querySelector('.plans.icons.skip-ribbon.skip-altCta'));
-    const heading = merchCard.querySelector('h2[slot=heading-m]');
+    const heading = merchCard.querySelector('div[slot=heading-m]');
     const headingXs = merchCard.querySelector('h3[slot=heading-xs]');
     const body = merchCard.querySelector('div[slot=body-xs]');
-    const detail = merchCard.querySelector('h5[slot=detail-m]');
+    const detail = merchCard.querySelector('div[slot=detail-m]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -146,11 +146,11 @@ describe('Catalog Card', () => {
   it('Supports Catalog card', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/catalog.html' });
     const merchCard = await init(document.querySelector('.merch-card.ribbon'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingOne = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
     const actionMenu = merchCard.querySelector('div[slot="action-menu-content"]');
-    const detail = merchCard.querySelector('h5[slot="detail-m"]');
+    const detail = merchCard.querySelector('div[slot="detail-m"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -175,11 +175,11 @@ describe('Catalog Card', () => {
   it('Supports Catalog card without badge', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/catalog.html' });
     const merchCard = await init(document.querySelector('.merch-card.catalog.empty-badge'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingOne = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
     const actionMenu = merchCard.querySelector('div[slot="action-menu-content"]');
-    const detail = merchCard.querySelector('h5[slot="detail-m"]');
+    const detail = merchCard.querySelector('div[slot="detail-m"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -202,11 +202,11 @@ describe('Catalog Card', () => {
   it('Supports Catalog card without badge and action-menu', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/catalog.html' });
     const merchCard = await init(document.querySelector('.merch-card.catalog.empty-action-menu'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingOne = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
     const actionMenu = merchCard.querySelector('div[slot="actionMenuContent"]');
-    const detail = merchCard.querySelector('h5[slot="detail-m"]');
+    const detail = merchCard.querySelector('div[slot="detail-m"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -229,11 +229,11 @@ describe('Catalog Card', () => {
   it('Supports Catalog card with badge without action-menu', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/catalog.html' });
     const merchCard = await init(document.querySelector('.merch-card.catalog.empty-badge.action-menu-exist'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingOne = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
     const actionMenu = merchCard.querySelector('div[slot="actionMenuContent"]');
-    const detail = merchCard.querySelector('h5[slot="detail-m"]');
+    const detail = merchCard.querySelector('div[slot="detail-m"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -270,10 +270,10 @@ describe('Catalog Card', () => {
   it('Supports intro-pricing card', async () => {
     document.body.innerHTML = await readFile({ path: './mocks/intro-pricing.html' });
     const merchCard = await init(document.querySelector('.merch-card'));
-    const heading = merchCard.querySelector('h2[slot="heading-m"]');
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
     const headingXs = merchCard.querySelector('h3[slot="heading-xs"]');
     const body = merchCard.querySelector('div[slot="body-xs"]');
-    const detailBg = merchCard.querySelector('h4[slot="body-xxs"]');
+    const detailBg = merchCard.querySelector('div[slot="body-xxs"]');
     const footer = merchCard.querySelector('div[slot="footer"]');
     const buttons = footer.querySelectorAll('.con-button');
 
@@ -303,6 +303,36 @@ describe('UAR Card', () => {
     }
     const merchCard = document.querySelector('merch-card');
     expect(merchCard.classList.contains('has-divider')).to.be.true;
+  });
+});
+describe('Mini Compare Chart Merch Card', () => {
+  it('Supports Mini Compare Chart with footer rows', async () => {
+    document.body.innerHTML = await readFile({ path: './mocks/mini-compare-chart.html' });
+    const merchCard = await init(document.querySelector('.merch-card.mini-compare-chart'));
+    const heading = merchCard.querySelector('div[slot="heading-m"]');
+    const body = merchCard.querySelector('div[slot="body-m"]');
+    const priceHeading = merchCard.querySelector('div[slot="heading-m-price"]');
+    const footer = merchCard.querySelector('div[slot="footer"]');
+    const buttons = footer.querySelectorAll('.con-button');
+    const footerRows = merchCard.querySelector('div[slot="footer-rows"]');
+    const footerRowsIcon = footerRows.querySelector('.footer-row-cell-icon picture');
+    const footerRowsText = footerRows.querySelector('.footer-row-cell-description');
+
+    expect(merchCard).to.exist;
+    expect(heading).to.exist;
+    expect(body).to.exist;
+    expect(priceHeading).to.exist;
+    expect(footerRows).to.exist;
+    expect(footerRowsIcon).to.exist;
+    expect(footerRowsText).to.exist;
+    expect(merchCard.getAttribute('variant')).to.be.equal('mini-compare-chart');
+    expect(merchCard.getAttribute('badge-background-color')).to.be.equal('#EDCC2D');
+    expect(merchCard.getAttribute('badge-color')).to.be.equal('#000000');
+    expect(merchCard.getAttribute('badge-text')).to.be.equal('LOREM IPSUM DOLOR');
+    expect(body.textContent).to.be.equal('Get Illustrator on desktop and iPad as part of Creative Cloud.');
+    expect(buttons.length).to.be.equal(2);
+    expect(buttons[0].textContent).to.be.equal('Buy now');
+    expect(buttons[1].textContent).to.be.equal('free trial');
   });
 });
 
@@ -338,8 +368,6 @@ describe('Merch Card with Offer Selection', () => {
     expect(document.querySelector('merch-quantity-select')).to.not.exist;
   });
 });
-
-
 
 describe('Section metadata rules', async () => {
   before(async () => {
